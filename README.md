@@ -63,13 +63,14 @@ The two Bluetooth sketches use the RFduinoBLE library (the RFduino 1.7.2 package
 
 ## Android app (partial)
 
-The Eclipse project `AndroidGamePad` (package `huadi.androidgamepad`) lived in a local Git repository that no longer exists, and no other copy has been found. What survives are the copies that Eclipse's Local History kept. Local History stores the version before each save, so these are late working versions, not necessarily the final code.
+The Eclipse project `AndroidGamePad` (package `huadi.androidgamepad`) lived in a local Git repository that no longer exists, and no other copy has been found. The Eclipse workspace still records the project's file list, but not the files themselves. What survives are the copies that Eclipse's Local History kept, plus one prototype. Local History stores the version before each save, so these are late working versions, not necessarily the final code.
 
 - [`BtnConfigActivity.java`](app-recovered/src/huadi/androidgamepad/btnconfig/BtnConfigActivity.java) (2014-05-03): the button layout screen. Start a new profile (loading a saved one is still a TODO in this version), pick a game screenshot as the background, then tap to place Button 1 to 4 or the analog stick; tap a placed button to remove it. Positions are saved in `SharedPreferences`, converted to the touch panel's raw coordinates (0 to 1600 by 0 to 2695 on the 1080 × 1920 test phone), portrait or landscape.
 - [`BleDeviceControl.java`](app-recovered/src/huadi/androidgamepad/bluetooth/BleDeviceControl.java) (2014-05-25): receives the controller's values over Bluetooth LE and splits them into button, X and Y. A pressed button touches its saved position; releasing all buttons lifts the touch. Joystick movement beyond a small dead zone becomes a touch that moves within a circle around the stick's position, using the square-to-circle mapping x·√(1 − y²/2) from [Mapping a Square to a Circle](https://mathproofs.blogspot.com/2005/07/mapping-square-to-circle.html).
 - [`jni/`](app-recovered/jni/) (2014-02-08): the native touch injection, built with the Android NDK. It is Radu Motisan's Android Event Injector (GPL-2.0-or-later), adapted for this app. My copy had lost its copyright and license notice; the notice is restored with a note of my changes, and [`jni/COPYING`](app-recovered/jni/COPYING) holds the GPL text.
+- [`prototype/Events.java`](app-recovered/prototype/Events.java) (2014-02-08): the Java side of the injector, from my modified copy of the Android Event Injector sample app, where I first tried touch injection. I added `SendTest(x, y)`, which presses a touch point at (x, y), moves it in 50 small steps and releases it, using multi-touch events. `BleDeviceControl` calls a later version of this method, which is lost.
 
-Missing: `Events.java` (the Java side of the native library), `BleService.java`, `BtnValue.java`, `BleStatu.java`, the main activity, layouts, images and `AndroidManifest.xml`. The recovered code does not build on its own.
+The workspace records list 13 hand-written classes. Besides the two above, these are missing: `BleDeviceListDialog`, `BleService`, `BleStatu`, `BtnValue`, `DBHelper`, `Events` (final version), `MainActivity`, `MyService`, `RFduinoUUIDs`, `Shell` and `SplashActivity`. Also missing are the layouts, button images, `AndroidManifest.xml` and the built `AndroidGamePad.apk`. The recovered code does not build on its own.
 
 Traditional Chinese comments were converted from Big5 (CP950) to UTF-8. Apart from that and the restored notices, the files are unchanged.
 
@@ -81,4 +82,4 @@ Traditional Chinese comments were converted from Big5 (CP950) to UTF-8. Apart fr
 
 ## License
 
-No open-source license applies to the thesis or to my own code. Do not assume the repository grants any license. The exception is `app-recovered/jni/`, which is GPL-2.0-or-later (see its `COPYING`). Figures that the thesis credits to other sources belong to their owners.
+No open-source license applies to the thesis or to my own code. Do not assume the repository grants any license. The exceptions are `app-recovered/jni/` and `app-recovered/prototype/`, which are GPL-2.0-or-later (license text in `app-recovered/jni/COPYING`). Figures that the thesis credits to other sources belong to their owners.
